@@ -8,6 +8,8 @@
 A crate to automatically generate Rust bindings to DynamoRIO.
 
 
+__DISCLAIMER__ : I built this crate to facilitate work I was doing on another project. I am willing to do minimal maintenance if issues arise and/or give  ownership to a more motivated developer.
+
 # Usage
 
 Before building, you must set the `DRIO_BUILD_DIR` environment variable to point to a directory that contains the built DynamoRIO source.

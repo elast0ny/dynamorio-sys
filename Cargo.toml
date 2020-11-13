@@ -3,8 +3,11 @@ name = "dynamorio-sys"
 version = "8.0.0"
 authors = ["ElasT0ny <elast0ny00@gmail.com>"]
 edition = "2018"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "Automatically generated bindings for DynamoRIO"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+documentation = "https://docs.rs/dynamorio-sys"
+repository  = "https://github.com/elast0ny/dynamorio-sys"
 
 [lib]
 path = "src/dynamorio.rs"
@@ -12,6 +15,7 @@ path = "src/dynamorio.rs"
 [features]
 default = []
 
+# DynamoRIO extensions
 bbdup = []
 containers = []
 covlib = []
@@ -23,8 +27,6 @@ syms = []
 util = []
 wrap = []
 x = []
-
-[dependencies]
 
 [build-dependencies]
 regex = "1"
