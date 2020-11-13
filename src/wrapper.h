@@ -2,8 +2,6 @@
 // and is used to generate Rust bindings to the C types
 #include <dr_api.h>
 
-#define DRIO_VERSION _USES_DR_VERSION_
-
 #ifdef __FEATURE_BBDUP
 #   include <drext.h>
 #   include <drbbdup.h>
