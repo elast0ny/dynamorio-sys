@@ -1,0 +1,32 @@
+[package]
+name = "dynamorio-sys"
+version = "8.0.0"
+authors = ["ElasT0ny <elast0ny00@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+path = "src/dynamorio.rs"
+
+[features]
+default = []
+
+bbdup = []
+containers = []
+covlib = []
+gui = []
+mgr = []
+option = []
+reg = []
+syms = []
+util = []
+wrap = []
+x = []
+
+[dependencies]
+
+[build-dependencies]
+regex = "1"
+bindgen = "0.53"
+cfg-if = "0.*"
