@@ -9,9 +9,6 @@ readme = "README.md"
 documentation = "https://docs.rs/dynamorio-sys"
 repository  = "https://github.com/elast0ny/dynamorio-sys"
 
-[lib]
-path = "src/dynamorio.rs"
-
 [features]
 default = []
 

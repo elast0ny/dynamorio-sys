@@ -1,13 +1,14 @@
 use std::env;
 use std::fs::File;
 use std::io::prelude::*;
+use std::path::{Path, PathBuf};
 
 use ::regex::*;
 
 
 pub const BUILD_DIR_DEFINE: &'static str = "DRIO_BUILD_DIR";
 
-fn version_ok(generated_rs: &str) -> bool  {
+fn version_ok(generated_rs: &Path) -> bool  {
     let mut fin = match File::open(generated_rs) {
         Ok(f) => f,
         Err(e) => {
@@ -149,18 +150,20 @@ fn main() {
         .whitelist_var("_?[dD][rR].*")
         .whitelist_var("_USES_DR_VERSION_")
         .clang_args(extra_args)
-        .raw_line("#![allow(warnings)]")
         // Finish the builder and generate the bindings.
         .generate()
         // Unwrap the Result and panic on failure.
         .expect("Unable to generate bindings");
 
+    let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
+    let out_file = out_path.join("bindings.rs");
+
     // Write the bindings to the $OUT_DIR/bindings.rs file.
     bindings
-        .write_to_file("src\\dynamorio.rs")
+        .write_to_file(&out_file)
         .expect("Couldn't write bindings!");
 
-    if !version_ok("src\\dynamorio.rs") {
-        std::fs::remove_file("src\\dynamorio.rs").unwrap();
+    if !version_ok(&out_file) {
+        std::fs::remove_file(&out_file).unwrap();
     }
 }
