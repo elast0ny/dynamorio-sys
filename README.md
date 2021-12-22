@@ -12,8 +12,6 @@ __DISCLAIMER__ : I built this crate to facilitate work I was doing on another pr
 
 # Usage
 
-Before building, you must set the `DRIO_BUILD_DIR` environment variable to point to a directory that contains the built DynamoRIO source.
-
 In order to enable extensions, use their respective names as features for the crate e.g :
 ```toml
 dynamorio-sys = {version = "*", features = ["mgr", "x", "reg", "wrap", "syms"]}
