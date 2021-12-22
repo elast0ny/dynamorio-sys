@@ -27,5 +27,5 @@ x = []
 
 [build-dependencies]
 regex = "1"
-bindgen = "0.53"
+bindgen = "0.59"
 cfg-if = "0.*"
