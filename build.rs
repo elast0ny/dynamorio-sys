@@ -1,11 +1,10 @@
-use std::env;
 use std::fs::File;
 use std::io::prelude::*;
 use std::path::{Path, PathBuf};
 
 use ::regex::*;
 
-pub const BUILD_DIR_DEFINE: &'static str = "DRIO_BUILD_DIR";
+pub const BUILD_DIR: &'static str = "DRIO_BUILD_DIR";
 
 #[cfg(target_os = "windows")]
 pub const PLATFORM: &'static str = "WINDOWS";
@@ -68,11 +67,11 @@ fn version_ok(generated_rs: &Path) -> bool  {
         let minor = version % 100;
 
         if major.to_string() != env!("CARGO_PKG_VERSION_MAJOR") {
-            panic!("Major version ({}) of {} does not match the current dynamorio-sys crate version ({})...", major, BUILD_DIR_DEFINE, env!("CARGO_PKG_VERSION_MAJOR"));
+            panic!("Major version ({}) of {} does not match the current dynamorio-sys crate version ({})...", major, BUILD_DIR, env!("CARGO_PKG_VERSION_MAJOR"));
         }
 
         if minor.to_string() != env!("CARGO_PKG_VERSION_MINOR") {
-            panic!("Minor version ({}) of {} does not match the current dynamorio-sys crate version ({})...", minor, BUILD_DIR_DEFINE, env!("CARGO_PKG_VERSION_MINOR"));
+            panic!("Minor version ({}) of {} does not match the current dynamorio-sys crate version ({})...", minor, BUILD_DIR, env!("CARGO_PKG_VERSION_MINOR"));
         }
     }
     
@@ -81,7 +80,10 @@ fn version_ok(generated_rs: &Path) -> bool  {
 
 
 fn main() {
-    let build_dir = cmake::build("dynamorio");
+    let build_dir = match std::env::var(BUILD_DIR) {
+        Ok(build_dir) => PathBuf::from(build_dir),
+        _ => cmake::build("dynamorio"),
+    };
 
     let mut extra_args = vec![];
     let mut libs = vec!["dynamorio"];
@@ -195,7 +197,7 @@ fn main() {
         // Unwrap the Result and panic on failure.
         .expect("Unable to generate bindings");
 
-    let out_path = PathBuf::from(env::var("OUT_DIR").unwrap());
+    let out_path = PathBuf::from(std::env::var("OUT_DIR").unwrap());
     let out_file = out_path.join("bindings.rs");
 
     // Write the bindings to the $OUT_DIR/bindings.rs file.
