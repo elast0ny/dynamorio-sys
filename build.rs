@@ -5,8 +5,31 @@ use std::path::{Path, PathBuf};
 
 use ::regex::*;
 
-
 pub const BUILD_DIR_DEFINE: &'static str = "DRIO_BUILD_DIR";
+
+#[cfg(target_os = "windows")]
+pub const PLATFORM: &'static str = "WINDOWS";
+
+#[cfg(target_os = "linux")]
+pub const PLATFORM: &'static str = "LINUX";
+
+#[cfg(target_arch = "x86")]
+pub const ARCHITECTURE: &'static str = "X86_32";
+
+#[cfg(target_arch = "x86_64")]
+pub const ARCHITECTURE: &'static str = "X86_64";
+
+#[cfg(target_arch = "arm")]
+pub const ARCHITECTURE: &'static str = "ARM_32";
+
+#[cfg(target_arch = "aarch64")]
+pub const ARCHITECTURE: &'static str = "ARM_64";
+
+#[cfg(any(target_arch = "x86", target_arch = "arm"))]
+pub const LIB_PATH: &'static str = "lib32/release";
+
+#[cfg(any(target_arch = "x86_64", target_arch = "aarch64"))]
+pub const LIB_PATH: &'static str = "lib64/release";
 
 fn version_ok(generated_rs: &Path) -> bool  {
     let mut fin = match File::open(generated_rs) {
@@ -52,40 +75,31 @@ fn version_ok(generated_rs: &Path) -> bool  {
 
 
 fn main() {
-    let dynamorio_lib_path;
-    let dynamorio_ext_path;
-    let mut extra_args: Vec<String> = vec!["-DWINDOWS".to_string()];
-    cfg_if::cfg_if! {
-        if #[cfg(target_arch = "x86_64")] {
-            extra_args.push("-DX86_64".to_string());
-            dynamorio_lib_path = "lib64\\release\\";
-            dynamorio_ext_path = "ext\\lib64\\release\\";
-        } else {
-            extra_args.push("-DX86_32".to_string());
-            dynamorio_lib_path = "lib32\\release\\";
-            dynamorio_ext_path = "ext\\lib32\\release\\";
-        }
-    }
-    if let Ok(build_dir) = env::var(BUILD_DIR_DEFINE) {
-        extra_args.push(format!("-I{0}\\include", build_dir));
-        extra_args.push(format!("-I{0}\\ext\\include", build_dir));
+    let build_dir = match env::var(BUILD_DIR_DEFINE) {
+        Ok(build_dir) => PathBuf::from(build_dir),
+        _ => panic!("Please set the {} to point to the base of the built DynamoRIO source", BUILD_DIR_DEFINE),
+    };
 
-        // Core DynamoRIO lib
-        println!(
-            "cargo:rustc-link-search={}\\{}",
-            build_dir, dynamorio_lib_path
-        );
-        println!("cargo:rustc-link-lib=static=dynamorio");
+    let mut extra_args: Vec<String> = vec![];
 
-        // Extenstions
-        println!("cargo:rustc-cdylib-link-arg=/FORCE:MULTIPLE");
-        println!(
-            "cargo:rustc-link-search={}\\{}",
-            build_dir, dynamorio_ext_path
-        );
-    } else {
-        panic!("Please set the {} to point to the base of the built DynamoRIO source", BUILD_DIR_DEFINE)
-    }
+    extra_args.push(format!("-D{}", PLATFORM));
+    extra_args.push(format!("-D{}", ARCHITECTURE));
+
+    extra_args.push(format!("-I{}", build_dir.join("include").to_string_lossy()));
+    extra_args.push(format!("-I{}", build_dir.join("ext/include").to_string_lossy()));
+
+    // Core DynamoRIO lib
+    println!("cargo:rustc-link-search={}", build_dir.join(LIB_PATH).to_string_lossy());
+
+    #[cfg(target_os = "windows")]
+    println!("cargo:rustc-link-lib=static=dynamorio");
+
+    #[cfg(target_os = "linux")]
+    println!("cargo:rustc-link-lib=static=dynamorio_static");
+
+    // Extensions
+    #[cfg(target_os = "windows")]
+    println!("cargo:rustc-cdylib-link-arg=/FORCE:MULTIPLE");
 
     // Include selected extensions
     if cfg!(feature = "bbdup") {
