@@ -29,3 +29,4 @@ x = []
 regex = "1"
 bindgen = "0.59"
 cfg-if = "0.*"
+cmake = "0.1"
