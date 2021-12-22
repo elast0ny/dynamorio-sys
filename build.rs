@@ -83,7 +83,8 @@ fn version_ok(generated_rs: &Path) -> bool  {
 fn main() {
     let build_dir = cmake::build("dynamorio");
 
-    let mut extra_args: Vec<String> = vec![];
+    let mut extra_args = vec![];
+    let mut libs = vec!["dynamorio"];
 
     extra_args.push(format!("-D{}", PLATFORM));
     extra_args.push(format!("-D{}", ARCHITECTURE));
@@ -92,57 +93,79 @@ fn main() {
     extra_args.push(format!("-I{}", build_dir.join("ext/include").to_string_lossy()));
 
     // Core DynamoRIO lib
-    println!("cargo:rustc-link-search={}", build_dir.join(LIB_PATH).join(PROFILE).to_string_lossy());
-
-    #[cfg(target_os = "windows")]
-    println!("cargo:rustc-link-lib=static=dynamorio");
-
-    #[cfg(target_os = "linux")]
-    println!("cargo:rustc-link-lib=static=dynamorio_static");
+    println!("cargo:rustc-link-search={}",
+        build_dir
+            .join(LIB_PATH)
+            .join(PROFILE)
+            .to_string_lossy());
 
     // Extensions
+    println!("cargo:rustc-link-search={}",
+        build_dir
+            .join("ext")
+            .join(LIB_PATH)
+            .join(PROFILE)
+            .to_string_lossy());
+
     #[cfg(target_os = "windows")]
     println!("cargo:rustc-cdylib-link-arg=/FORCE:MULTIPLE");
 
     // Include selected extensions
     if cfg!(feature = "bbdup") {
         extra_args.push("-D __FEATURE_BBDUP".to_string());
-        println!("cargo:rustc-link-lib=static=drbbdup");
+        libs.push("drbbdup");
     }
+
     if cfg!(feature = "containers") {
         extra_args.push("-D __FEATURE_CONTAINERS".to_string());
-        println!("cargo:rustc-link-lib=static=drcontainers");
+        libs.push("drcontainers");
     }
+
     if cfg!(feature = "covlib") {
         extra_args.push("-D __FEATURE_COVLIB".to_string());
-        println!("cargo:rustc-link-lib=static=drcovlib");
+        libs.push("drcovlib");
     }
+
     if cfg!(feature = "mgr") {
         extra_args.push("-D __FEATURE_MGR".to_string());
-        println!("cargo:rustc-link-lib=static=drmgr");
+        libs.push("drmgr");
     }
+
     if cfg!(feature = "option") {
         extra_args.push("-D __FEATURE_OPTION".to_string());
     }
+
     if cfg!(feature = "reg") {
         extra_args.push("-D __FEATURE_REG".to_string());
-        println!("cargo:rustc-link-lib=static=drreg");
+        libs.push("drreg");
     }
+
     if cfg!(feature = "syms") {
         extra_args.push("-D __FEATURE_SYMS".to_string());
-        println!("cargo:rustc-link-lib=static=drsyms");
+        libs.push("drsyms");
     }
+
     if cfg!(feature = "util") {
         extra_args.push("-D __FEATURE_UTIL".to_string());
-        println!("cargo:rustc-link-lib=static=drutil");
+        libs.push("drutil");
     }
+
     if cfg!(feature = "wrap") {
         extra_args.push("-D __FEATURE_WRAP".to_string());
-        println!("cargo:rustc-link-lib=static=drwrap");
+        libs.push("drwrap");
     }
+
     if cfg!(feature = "x") {
         extra_args.push("-D __FEATURE_X".to_string());
-        println!("cargo:rustc-link-lib=static=drx");
+        libs.push("drx");
+    }
+
+    for lib in libs {
+        #[cfg(target_os = "linux")]
+        println!("cargo:rustc-link-lib={}_static", lib);
+
+        #[cfg(target_os = "windows")]
+        println!("cargo:rustc-link-lib={}", lib);
     }
     
     // Tell cargo to invalidate the built crate whenever the wrapper changes
