@@ -26,10 +26,16 @@ pub const ARCHITECTURE: &'static str = "ARM_32";
 pub const ARCHITECTURE: &'static str = "ARM_64";
 
 #[cfg(any(target_arch = "x86", target_arch = "arm"))]
-pub const LIB_PATH: &'static str = "lib32/release";
+pub const LIB_PATH: &'static str = "lib32";
 
 #[cfg(any(target_arch = "x86_64", target_arch = "aarch64"))]
-pub const LIB_PATH: &'static str = "lib64/release";
+pub const LIB_PATH: &'static str = "lib64";
+
+#[cfg(debug_assertions)]
+pub const PROFILE: &'static str = "debug";
+
+#[cfg(not(debug_assertions))]
+pub const PROFILE: &'static str = "release";
 
 fn version_ok(generated_rs: &Path) -> bool  {
     let mut fin = match File::open(generated_rs) {
@@ -75,10 +81,7 @@ fn version_ok(generated_rs: &Path) -> bool  {
 
 
 fn main() {
-    let build_dir = match env::var(BUILD_DIR_DEFINE) {
-        Ok(build_dir) => PathBuf::from(build_dir),
-        _ => panic!("Please set the {} to point to the base of the built DynamoRIO source", BUILD_DIR_DEFINE),
-    };
+    let build_dir = cmake::build("dynamorio");
 
     let mut extra_args: Vec<String> = vec![];
 
@@ -89,7 +92,7 @@ fn main() {
     extra_args.push(format!("-I{}", build_dir.join("ext/include").to_string_lossy()));
 
     // Core DynamoRIO lib
-    println!("cargo:rustc-link-search={}", build_dir.join(LIB_PATH).to_string_lossy());
+    println!("cargo:rustc-link-search={}", build_dir.join(LIB_PATH).join(PROFILE).to_string_lossy());
 
     #[cfg(target_os = "windows")]
     println!("cargo:rustc-link-lib=static=dynamorio");
