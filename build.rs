@@ -159,10 +159,10 @@ fn main() {
         // included header files changed.
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .size_t_is_usize(true)
-        .whitelist_function("_?[dD][rR].*")
-        .whitelist_type("_?[dD][rR].*")
-        .whitelist_var("_?[dD][rR].*")
-        .whitelist_var("_USES_DR_VERSION_")
+        .allowlist_function("_?[dD][rR].*")
+        .allowlist_type("_?[dD][rR].*")
+        .allowlist_var("_?[dD][rR].*")
+        .allowlist_var("_USES_DR_VERSION_")
         .clang_args(extra_args)
         // Finish the builder and generate the bindings.
         .generate()
