@@ -189,12 +189,12 @@ fn main() {
 
     for lib in libs {
         #[cfg(target_os = "linux")]
-        println!("cargo:rustc-link-lib={}_static", lib);
+        println!("cargo:rustc-link-lib={}", lib);
 
         #[cfg(target_os = "windows")]
         println!("cargo:rustc-link-lib={}", lib);
     }
-    
+
     // Tell cargo to invalidate the built crate whenever the wrapper changes
     println!("cargo:rerun-if-changed=src/wrapper.h");
 
