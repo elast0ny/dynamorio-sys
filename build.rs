@@ -215,6 +215,7 @@ fn main() {
         .allowlist_function("_?[dD][rR].*")
         .allowlist_type("_?[dD][rR].*")
         .allowlist_var("_?[dD][rR].*")
+        .allowlist_function("instr_.*")
         .allowlist_var("_USES_DR_VERSION_")
         .clang_args(extra_args)
         // Finish the builder and generate the bindings.
