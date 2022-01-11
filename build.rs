@@ -127,9 +127,6 @@ fn main() {
             .join(PROFILE)
             .to_string_lossy());
 
-    #[cfg(target_os = "windows")]
-    println!("cargo:rustc-cdylib-link-arg=/FORCE:MULTIPLE");
-
     // Include selected extensions
     if cfg!(feature = "bbdup") {
         extra_args.push("-D __FEATURE_BBDUP".to_string());
