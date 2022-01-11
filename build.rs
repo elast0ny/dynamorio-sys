@@ -217,6 +217,8 @@ fn main() {
         .allowlist_var("_?[dD][rR].*")
         .allowlist_function("instr_.*")
         .allowlist_var("_USES_DR_VERSION_")
+        .rustified_enum("drsym_error_t")
+        .bitfield_enum("drsym_flags_t")
         .clang_args(extra_args)
         // Finish the builder and generate the bindings.
         .generate()
