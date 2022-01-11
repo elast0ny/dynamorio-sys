@@ -12,6 +12,12 @@ pub const PLATFORM: &'static str = "WINDOWS";
 #[cfg(target_os = "linux")]
 pub const PLATFORM: &'static str = "LINUX";
 
+#[cfg(target_os = "windows")]
+pub const BUILD_TARGET: &'static str = "ALL_BUILD";
+
+#[cfg(target_os = "linux")]
+pub const BUILD_TARGET: &'static str = "all";
+
 #[cfg(target_arch = "x86")]
 pub const ARCHITECTURE: &'static str = "X86_32";
 
@@ -78,11 +84,23 @@ fn version_ok(generated_rs: &Path) -> bool  {
     return true;
 }
 
-
 fn main() {
     let build_dir = match std::env::var(BUILD_DIR) {
-        Ok(build_dir) => PathBuf::from(build_dir),
-        _ => cmake::build("dynamorio"),
+        Ok(build_dir) => {
+            println!("cargo:rerun-if-changed={}", build_dir);
+            PathBuf::from(build_dir)
+        }
+        _ => {
+            println!("cargo:rerun-if-changed=dynamorio");
+
+            let mut path = cmake::Config::new("dynamorio")
+                .build_target(BUILD_TARGET)
+                .profile("RelWithDebInfo")
+                .build();
+
+            path.push("build");
+            path
+        }
     };
 
     let mut extra_args = vec![];
