@@ -29,3 +29,6 @@ x = []
 regex = "1"
 bindgen = "0.59"
 cmake = "0.1"
+
+[target.'cfg(windows)'.build-dependencies]
+windows-kits = { git = "https://github.com/StephanvanSchaik/windows-kits" }

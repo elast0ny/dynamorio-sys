@@ -109,6 +109,16 @@ fn main() {
     extra_args.push(format!("-D{}", PLATFORM));
     extra_args.push(format!("-D{}", ARCHITECTURE));
 
+    #[cfg(windows)]
+    {
+        let kits = windows_kits::WindowsKits::new().unwrap();
+        let include_path = kits.get_version_dir(windows_kits::DirectoryType::Headers).unwrap();
+
+        for name in &["shared", "ucrt", "um"] {
+            extra_args.push(format!("-I{}", include_path.join(name)));
+        }
+    }
+
     extra_args.push(format!("-I{}", build_dir.join("include").to_string_lossy()));
     extra_args.push(format!("-I{}", build_dir.join("ext/include").to_string_lossy()));
 
