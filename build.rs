@@ -36,12 +36,6 @@ pub const LIB_PATH: &'static str = "lib32";
 #[cfg(any(target_arch = "x86_64", target_arch = "aarch64"))]
 pub const LIB_PATH: &'static str = "lib64";
 
-#[cfg(debug_assertions)]
-pub const PROFILE: &'static str = "debug";
-
-#[cfg(not(debug_assertions))]
-pub const PROFILE: &'static str = "release";
-
 fn version_ok(generated_rs: &Path) -> bool  {
     let mut fin = match File::open(generated_rs) {
         Ok(f) => f,
@@ -126,7 +120,7 @@ fn main() {
     println!("cargo:rustc-link-search={}",
         build_dir
             .join(LIB_PATH)
-            .join(PROFILE)
+            .join("release")
             .to_string_lossy());
 
     // Extensions
@@ -134,7 +128,7 @@ fn main() {
         build_dir
             .join("ext")
             .join(LIB_PATH)
-            .join(PROFILE)
+            .join("release")
             .to_string_lossy());
 
     // Include selected extensions
