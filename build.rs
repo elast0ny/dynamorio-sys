@@ -210,6 +210,7 @@ fn main() {
         .allowlist_type("_?[dD][rR].*")
         .allowlist_var("_?[dD][rR].*")
         .allowlist_function("instr_.*")
+        .allowlist_var("OP_.*")
         .allowlist_var("_USES_DR_VERSION_")
         .rustified_enum("drsym_error_t")
         .bitfield_enum("drsym_flags_t")
