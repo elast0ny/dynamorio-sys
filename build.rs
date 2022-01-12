@@ -213,6 +213,8 @@ fn main() {
         .allowlist_function("instrlist_.*")
         .allowlist_var("OP_.*")
         .allowlist_var("_USES_DR_VERSION_")
+        .bitfield_enum("dr_emit_flags_t")
+        .bitfield_enum("dr_exit_flags_t")
         .rustified_enum("drsym_error_t")
         .bitfield_enum("drsym_flags_t")
         .clang_args(extra_args)
