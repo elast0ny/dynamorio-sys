@@ -217,6 +217,7 @@ fn main() {
         .bitfield_enum("dr_emit_flags_t")
         .bitfield_enum("dr_exit_flags_t")
         .rustified_enum("dr_spill_slot_t")
+        .bitfield_enum("dr_mcontext_flags_t")
         .rustified_enum("drsym_error_t")
         .bitfield_enum("drsym_flags_t")
         .clang_args(extra_args)
