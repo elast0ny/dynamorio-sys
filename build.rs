@@ -238,4 +238,14 @@ fn main() {
     if !version_ok(&out_file) {
         std::fs::remove_file(&out_file).unwrap();
     }
+
+    cc::Build::new()
+        .define(PLATFORM, None)
+        .define(ARCHITECTURE, None)
+        .include(build_dir.join("include"))
+        .include(build_dir.join("ext/include"))
+        .file("src/wrapper.c")
+        .compile("libhelper.a");
+
+    println!("cargo:rustc-link-lib=libhelper.a");
 }
