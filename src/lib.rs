@@ -5,6 +5,7 @@
 
 include!(concat!(env!("OUT_DIR"), "/bindings.rs"));
 
+#[link(name = "wrapper")]
 extern "C" {
     pub fn dr_stdout() -> file_t;
     pub fn dr_stderr() -> file_t;
