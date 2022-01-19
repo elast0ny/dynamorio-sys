@@ -88,6 +88,7 @@ fn main() {
             println!("cargo:rerun-if-changed=dynamorio");
 
             let mut path = cmake::Config::new("dynamorio")
+                .define("BUILD_DOCS", "NO")
                 .build_target(BUILD_TARGET)
                 .profile("RelWithDebInfo")
                 .build();
