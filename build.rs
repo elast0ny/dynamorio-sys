@@ -212,6 +212,7 @@ fn main() {
         .allowlist_function("instr_.*")
         .allowlist_function("instrlist_.*")
         .allowlist_function("opnd_.*")
+        .allowlist_var("INVALID_FILE")
         .allowlist_var("OP_.*")
         .allowlist_var("SPILL_SLOT_.*")
         .allowlist_var("_USES_DR_VERSION_")
