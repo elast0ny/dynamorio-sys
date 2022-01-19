@@ -4,15 +4,21 @@
 [![mio](https://docs.rs/dynamorio-sys/badge.svg)](https://docs.rs/dynamorio-sys/)
 ![Lines of Code](https://tokei.rs/b1/github/elast0ny/dynamorio-sys)
 
+A crate using bindgen to automatically generate Rust bindings to [DynamoRIO](https://dynamorio.org).
+For safe Rust bindings to the DynamoRIO dynamic binary instrumentation framework, you may want to consider using [dynamorio-rs](https://github.com/StephanvanSchaik/dynamorio-rs) instead.
+[dynamorio-rs](https://github.com/StephanvanSchaik/dynamorio-rs) uses this crate to provide safe Rust bindings to DynamoRIO such that you can write DynamoRIO clients in Rust.
 
-A crate to automatically generate Rust bindings to DynamoRIO.
+# Supported Platforms
 
+dynamorio-sys is currently available for the following platforms:
 
-__DISCLAIMER__ : I built this crate to facilitate work I was doing on another project. I am willing to do minimal maintenance if issues arise and/or give  ownership to a more motivated developer.
+- [x] Microsoft Windows
+- [x] Linux
 
 # Usage
 
 In order to enable extensions, use their respective names as features for the crate e.g :
+
 ```toml
 dynamorio-sys = {version = "*", features = ["mgr", "x", "reg", "wrap", "syms"]}
 ```
