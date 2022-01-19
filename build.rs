@@ -109,7 +109,7 @@ fn main() {
         let include_path = kits.get_version_dir(windows_kits::DirectoryType::Headers).unwrap();
 
         for name in &["shared", "ucrt", "um"] {
-            extra_args.push(format!("-I{}", include_path.join(name)));
+            extra_args.push(format!("-I{}", include_path.join(name).to_string_lossy()));
         }
     }
 
