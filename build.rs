@@ -207,6 +207,7 @@ fn main() {
         // included header files changed.
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .size_t_is_usize(true)
+        .allowlist_function("__wrap_.*")
         .allowlist_function("_?[dD][rR].*")
         .allowlist_type("_?[dD][rR].*")
         .allowlist_var("_?[dD][rR].*")
