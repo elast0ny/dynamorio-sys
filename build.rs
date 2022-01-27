@@ -216,6 +216,7 @@ fn main() {
         .allowlist_function("opnd_.*")
         .allowlist_var("INVALID_FILE")
         .allowlist_var("OP_.*")
+        .allowlist_var("OPSZ_.*")
         .allowlist_var("SPILL_SLOT_.*")
         .allowlist_var("_USES_DR_VERSION_")
         .bitfield_enum("dr_emit_flags_t")
