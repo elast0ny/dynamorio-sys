@@ -17,6 +17,14 @@ dynamorio-sys is currently available for the following platforms:
 
 # Usage
 
+To build the project:
+
+```bash
+git clone --recurse-submodules https://github.com/elast0ny/dynamorio-sys.git
+cd dynamorio-sys
+cargo build
+```
+
 In order to enable extensions, use their respective names as features for the crate e.g :
 
 ```toml
