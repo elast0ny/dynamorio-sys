@@ -1,6 +1,6 @@
 [package]
 name = "dynamorio-sys"
-version = "9.0.0"
+version = "11.90.0"
 authors = ["ElasT0ny <elast0ny00@gmail.com>"]
 edition = "2018"
 description = "Automatically generated bindings for DynamoRIO"
