@@ -87,6 +87,14 @@ fn main() {
         _ => {
             println!("cargo:rerun-if-changed=dynamorio");
 
+            #[cfg(target_os = "windows")]
+            let mut path = cmake::Config::new("dynamorio")
+                .define("BUILD_DOCS", "NO")
+                .build_target(BUILD_TARGET)
+                .profile("RelWithDebInfo")
+                .build();
+
+            #[cfg(target_os = "linux")]
             let mut path = cmake::Config::new("dynamorio")
                 .define("BUILD_DOCS", "NO")
                 .define("CMAKE_ASM_COMPILER", "/usr/bin/as")
