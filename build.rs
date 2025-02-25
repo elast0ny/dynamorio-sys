@@ -89,6 +89,8 @@ fn main() {
 
             let mut path = cmake::Config::new("dynamorio")
                 .define("BUILD_DOCS", "NO")
+                .define("CMAKE_ASM_COMPILER", "/usr/bin/as")
+                .define("CMAKE_ASM_FLAGS", "")
                 .build_target(BUILD_TARGET)
                 .profile("RelWithDebInfo")
                 .build();
@@ -225,6 +227,8 @@ fn main() {
         .bitfield_enum("dr_mcontext_flags_t")
         .rustified_enum("drsym_error_t")
         .bitfield_enum("drsym_flags_t")
+        .blocklist_type("_dr_mcontext_t_union_\\(anonymous_at_.+\\)") // anonymous structs
+        .blocklist_type("_module_data_t_union_\\(anonymous_at_.+\\)") // anonymous structs
         .clang_args(extra_args)
         // Finish the builder and generate the bindings.
         .generate()
