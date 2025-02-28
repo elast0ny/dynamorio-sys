@@ -215,7 +215,7 @@ fn main() {
         //.header_contents("_extra.h", extra_defines)
         // Tell cargo to invalidate the built crate whenever any of the
         // included header files changed.
-        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+        .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .size_t_is_usize(true)
         .allowlist_function("__wrap_.*")
         .allowlist_function("_?[dD][rR].*")
@@ -235,8 +235,6 @@ fn main() {
         .bitfield_enum("dr_mcontext_flags_t")
         .rustified_enum("drsym_error_t")
         .bitfield_enum("drsym_flags_t")
-        .blocklist_type("_dr_mcontext_t_union_\\(anonymous_at_.+\\)") // anonymous structs
-        .blocklist_type("_module_data_t_union_\\(anonymous_at_.+\\)") // anonymous structs
         .clang_args(extra_args)
         // Finish the builder and generate the bindings.
         .generate()
