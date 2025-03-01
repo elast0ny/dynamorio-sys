@@ -1,6 +1,7 @@
 // This header contains all the required DynamoRIO headers 
 // and is used to generate Rust bindings to the C types
 #include <dr_api.h>
+#include <dr_frontend.h>
 
 #ifdef __FEATURE_BBDUP
 #   include <drext.h>
