@@ -32,4 +32,4 @@ cc = "1"
 cmake = "0.1"
 
 [target.'cfg(windows)'.build-dependencies]
-windows-kits = { git = "https://github.com/StephanvanSchaik/windows-kits" }
+windows-kits = "0.1"
