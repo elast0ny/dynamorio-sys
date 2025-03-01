@@ -36,22 +36,22 @@ pub const LIB_PATH: &'static str = "lib32";
 #[cfg(any(target_arch = "x86_64", target_arch = "aarch64"))]
 pub const LIB_PATH: &'static str = "lib64";
 
-fn version_ok(generated_rs: &Path) -> bool  {
+fn version_ok(generated_rs: &Path) -> bool {
     let mut fin = match File::open(generated_rs) {
         Ok(f) => f,
         Err(e) => {
             eprintln!("Failed to open generated bindings : {}", e);
-            return false
-        },
+            return false;
+        }
     };
 
     let mut contents = String::new();
-    
+
     if let Err(e) = fin.read_to_string(&mut contents) {
         eprintln!("Failed to read generated bindings : {}", e);
         return false;
     }
-    
+
     let re = Regex::new(r"_USES_DR_VERSION_.+=\s*(\d+);").unwrap();
 
     for cap in re.captures_iter(&contents) {
@@ -74,7 +74,7 @@ fn version_ok(generated_rs: &Path) -> bool  {
             panic!("Minor version ({}) of {} does not match the current dynamorio-sys crate version ({})...", minor, BUILD_DIR, env!("CARGO_PKG_VERSION_MINOR"));
         }
     }
-    
+
     return true;
 }
 
@@ -117,7 +117,9 @@ fn main() {
     #[cfg(windows)]
     {
         let kits = windows_kits::WindowsKits::new().unwrap();
-        let include_path = kits.get_version_dir(windows_kits::DirectoryType::Headers).unwrap();
+        let include_path = kits
+            .get_version_dir(windows_kits::DirectoryType::Headers)
+            .unwrap();
 
         for name in &["shared", "ucrt", "um"] {
             extra_args.push(format!("-I{}", include_path.join(name).to_string_lossy()));
@@ -125,22 +127,26 @@ fn main() {
     }
 
     extra_args.push(format!("-I{}", build_dir.join("include").to_string_lossy()));
-    extra_args.push(format!("-I{}", build_dir.join("ext/include").to_string_lossy()));
+    extra_args.push(format!(
+        "-I{}",
+        build_dir.join("ext/include").to_string_lossy()
+    ));
 
     // Core DynamoRIO lib
-    println!("cargo:rustc-link-search={}",
-        build_dir
-            .join(LIB_PATH)
-            .join("release")
-            .to_string_lossy());
+    println!(
+        "cargo:rustc-link-search={}",
+        build_dir.join(LIB_PATH).join("release").to_string_lossy()
+    );
 
     // Extensions
-    println!("cargo:rustc-link-search={}",
+    println!(
+        "cargo:rustc-link-search={}",
         build_dir
             .join("ext")
             .join(LIB_PATH)
             .join("release")
-            .to_string_lossy());
+            .to_string_lossy()
+    );
 
     // Include selected extensions
     if cfg!(feature = "bbdup") {
