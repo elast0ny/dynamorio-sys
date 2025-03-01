@@ -8,7 +8,7 @@ license = "MIT OR Apache-2.0"
 readme = "README.md"
 documentation = "https://docs.rs/dynamorio-sys"
 repository  = "https://github.com/elast0ny/dynamorio-sys"
-exclude = ["dynamorio"]
+exclude = ["dynamorio/build"]
 
 [features]
 default = []
