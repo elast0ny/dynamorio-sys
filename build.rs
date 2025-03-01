@@ -4,37 +4,37 @@ use std::path::{Path, PathBuf};
 
 use ::regex::*;
 
-pub const BUILD_DIR: &'static str = "DRIO_BUILD_DIR";
+pub const BUILD_DIR: &str = "DRIO_BUILD_DIR";
 
 #[cfg(target_os = "windows")]
-pub const PLATFORM: &'static str = "WINDOWS";
+pub const PLATFORM: &str = "WINDOWS";
 
 #[cfg(target_os = "linux")]
-pub const PLATFORM: &'static str = "LINUX";
+pub const PLATFORM: &str = "LINUX";
 
 #[cfg(target_os = "windows")]
-pub const BUILD_TARGET: &'static str = "ALL_BUILD";
+pub const BUILD_TARGET: &str = "ALL_BUILD";
 
 #[cfg(target_os = "linux")]
-pub const BUILD_TARGET: &'static str = "all";
+pub const BUILD_TARGET: &str = "all";
 
 #[cfg(target_arch = "x86")]
-pub const ARCHITECTURE: &'static str = "X86_32";
+pub const ARCHITECTURE: &str = "X86_32";
 
 #[cfg(target_arch = "x86_64")]
-pub const ARCHITECTURE: &'static str = "X86_64";
+pub const ARCHITECTURE: &str = "X86_64";
 
 #[cfg(target_arch = "arm")]
-pub const ARCHITECTURE: &'static str = "ARM_32";
+pub const ARCHITECTURE: &str = "ARM_32";
 
 #[cfg(target_arch = "aarch64")]
-pub const ARCHITECTURE: &'static str = "ARM_64";
+pub const ARCHITECTURE: &str = "ARM_64";
 
 #[cfg(any(target_arch = "x86", target_arch = "arm"))]
-pub const LIB_PATH: &'static str = "lib32";
+pub const LIB_PATH: &str = "lib32";
 
 #[cfg(any(target_arch = "x86_64", target_arch = "aarch64"))]
-pub const LIB_PATH: &'static str = "lib64";
+pub const LIB_PATH: &str = "lib64";
 
 fn version_ok(generated_rs: &Path) -> bool {
     let mut fin = match File::open(generated_rs) {
@@ -75,7 +75,7 @@ fn version_ok(generated_rs: &Path) -> bool {
         }
     }
 
-    return true;
+    true
 }
 
 fn main() {
