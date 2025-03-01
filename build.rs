@@ -89,14 +89,20 @@ fn main() {
 
             #[cfg(target_os = "windows")]
             let mut path = cmake::Config::new("dynamorio")
+                .define("BUILD_CLIENTS", "NO")
                 .define("BUILD_DOCS", "NO")
+                .define("BUILD_SAMPLES", "NO")
+                .define("BUILD_TESTS", "NO")
                 .build_target(BUILD_TARGET)
                 .profile("RelWithDebInfo")
                 .build();
 
             #[cfg(target_os = "linux")]
             let mut path = cmake::Config::new("dynamorio")
+                .define("BUILD_CLIENTS", "NO")
                 .define("BUILD_DOCS", "NO")
+                .define("BUILD_SAMPLES", "NO")
+                .define("BUILD_TESTS", "NO")
                 .define("CMAKE_ASM_COMPILER", "/usr/bin/as")
                 .define("CMAKE_ASM_FLAGS", "")
                 .build_target(BUILD_TARGET)
