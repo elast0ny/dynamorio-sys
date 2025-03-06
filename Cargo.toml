@@ -16,6 +16,10 @@ exclude = [
    "dynamorio/third_party/libipt/test",
    "dynamorio/tools",
 ]
+include = [
+   "dynamorio/api/docs/CMake_rundoxygen.cmake",
+   "dynamorio/api/docs/CMake_doxyutils.cmake",
+]
 
 [features]
 default = []
