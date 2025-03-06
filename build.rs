@@ -91,8 +91,10 @@ fn main() {
             let mut path = cmake::Config::new("dynamorio")
                 .define("BUILD_CLIENTS", "NO")
                 .define("BUILD_DOCS", "NO")
+                .define("BUILD_DRSTATS", "NO")
                 .define("BUILD_SAMPLES", "NO")
                 .define("BUILD_TESTS", "NO")
+                .define("BUILD_TOOLS", "NO")
                 .build_target(BUILD_TARGET)
                 .profile("RelWithDebInfo")
                 .build();
@@ -103,6 +105,7 @@ fn main() {
                 .define("BUILD_DOCS", "NO")
                 .define("BUILD_SAMPLES", "NO")
                 .define("BUILD_TESTS", "NO")
+                .define("BUILD_TOOLS", "NO")
                 .define("CMAKE_ASM_COMPILER", "/usr/bin/as")
                 .define("CMAKE_ASM_FLAGS", "")
                 .build_target(BUILD_TARGET)
