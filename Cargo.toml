@@ -1,6 +1,6 @@
 [package]
 name = "dynamorio-sys"
-version = "11.90.0"
+version = "11.90.1"
 authors = [
     "S.J.R. van Schaik <stephan@synkhronix.com>",
     "ElasT0ny <elast0ny00@gmail.com>",
@@ -15,8 +15,6 @@ exclude = [
    "dynamorio/api",
    "dynamorio/clients",
    "dynamorio/ext/drsyms/libelftc-android/lib32",
-   "dynamorio/ext/drsyms/libelftc-pecoff/lib32",
-   "dynamorio/ext/drsyms/libelftc-pecoff/lib64",
    "dynamorio/suite",
    "!dynamorio/suite/lookup_visualstudio.cmake",
    "dynamorio/third_party/binutils",
