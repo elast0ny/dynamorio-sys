@@ -1,7 +1,10 @@
 [package]
 name = "dynamorio-sys"
 version = "11.90.0"
-authors = ["ElasT0ny <elast0ny00@gmail.com>"]
+authors = [
+    "S.J.R. van Schaik <stephan@synkhronix.com>",
+    "ElasT0ny <elast0ny00@gmail.com>",
+]
 edition = "2018"
 description = "Automatically generated bindings for DynamoRIO"
 license = "MIT OR Apache-2.0"
