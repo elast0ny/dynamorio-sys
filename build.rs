@@ -272,6 +272,7 @@ fn main() {
     println!("cargo:rerun-if-changed=src/wrapper.c");
 
     cc::Build::new()
+        .std("c99")
         .define(PLATFORM, None)
         .define(ARCHITECTURE, None)
         .include(build_dir.join("include"))
