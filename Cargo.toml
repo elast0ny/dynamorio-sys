@@ -49,7 +49,7 @@ x = []
 
 [build-dependencies]
 regex = "1"
-bindgen = "0.71"
+bindgen = "0.72"
 cc = "1"
 cmake = "0.1"
 
